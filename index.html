@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bricoula</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #f2f2f2;
+    }
+    h1 {
+      color: #4A148C;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background: #4A148C;
+      color: #fff;
+      border-radius: 8px;
+    }
+    button:hover {
+      background: #6A1B9A;
+    }
+    p {
+      margin-top: 15px;
+      color: #333;
+    }
+  </style>
+
+  <!-- Pi SDK -->
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+</head>
+
+<body>
+
+  <h1>Welcome to Bricoula</h1>
+
+  <button onclick="loginWithPi()">Login with Pi</button>
+
+  <p id="status">Please login using Pi Browser.</p>
+
+  <script>
+    const status = document.getElementById("status");
+
+    // تأكد أن التطبيق مفتوح في Pi Browser
+    if (typeof Pi === "undefined") {
+      status.innerText = "⚠ Please open this app in Pi Browser.";
+    }
+
+    async function loginWithPi() {
+      if (typeof Pi === "undefined") return;
+
+      try {
+        const auth = await Pi.authenticate(
+          ["username"],
+          { sandbox: true } // ✅ لازم sandbox true
+        );
+
+        status.innerText = "Welcome " + auth.user.username;
+
+      } catch (err) {
+        status.innerText = "Login cancelled or failed.";
+      }
+    }
+  </script>
+
+</body>
+</html>
